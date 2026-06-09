@@ -16,6 +16,7 @@ def run():
         #Check Trading time
         should_run, sleep_time = get_next_action()
         if not should_run:
+            print("Trading Suspended")
             time.sleep(sleep_time)
             continue
         #Loop for each stock

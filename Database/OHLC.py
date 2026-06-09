@@ -1,4 +1,4 @@
-from PostgreSQL import get_conn
+from .PostgreSQL import get_conn
 
 def fetch_raw(limit=1000):
     with get_conn() as conn:
