@@ -1,35 +1,37 @@
 from engine.collector import fetch_data
 from Core.models import model_stock
-from Database.PostgreSQL import save,create_tables
+from Database.PostgreSQL import PostgresManager
 from engine.notifier import send,info
 from engine.realtime import get_next_action
-from Database.OHLC import fetch_raw,ohlc_func,print_ohlc
 import time
+from rich.console import Console
+
+console = Console()
 #Hàm Run
 def run():
-    last_price=None
+    db = PostgresManager()
     last_save_time = 0
-    last_ohlc_time = 0
-    last_prices = {"VIX": None, "BSR": None, "VRE": None}
+    last_prices = {"vix": None, "bsr": None, "vre": None}
     stocks = ["vix","bsr","vre"]
     while True:
         #Check Trading time
         should_run, sleep_time = get_next_action()
         if not should_run:
-            print("Trading Suspended")
+            console.print(f":pause_button: [dark_orange]Trading Suspended[/dark_orange]")
             time.sleep(sleep_time)
             continue
+        
         #Loop for each stock
         now = time.time()
         for ticker in stocks:
             try:
-                create_tables(ticker)
+                db.create_tables(ticker)
                 raw_data = fetch_data(ticker)
 
                 stock = model_stock(raw_data)
                 stock.ticker = ticker
 
-                save(stock,ticker)
+                db.save(stock,ticker)
 
                 if stock.priceClose != last_prices[ticker] or now - last_save_time >= 30:
                     send(stock, ticker) 
@@ -37,10 +39,9 @@ def run():
                     last_prices[ticker] = stock.priceClose
 
             except Exception as e:
-                print(f"Lỗi khi xử lý mã {ticker}: {e}")
+                console.print(f" [dark_orange]Lỗi khi xử lý mã {ticker}: {e}")
 
         #Wait 2s to next loop
-
         last_save_time = now
         time.sleep(2)
 

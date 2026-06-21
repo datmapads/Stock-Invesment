@@ -73,6 +73,7 @@ def send(stock,ticker:str):
         return res
     except requests.RequestException as e:
         print("Lỗi gửi webhook:", e)
+        
 #Hàm Input
 def info():
     while True:   

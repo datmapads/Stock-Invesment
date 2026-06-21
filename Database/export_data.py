@@ -1,6 +1,6 @@
 import pandas as pd
 import pandas_ta as ta
-from PostgreSQL import get_conn # Giữ nguyên đường dẫn import của bạn
+from PostgreSQL import get_conn 
 
 def load_data():
     with get_conn() as conn:
