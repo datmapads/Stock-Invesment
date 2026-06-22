@@ -7,14 +7,14 @@ def send(stock,ticker:str):
         print("Thiếu WEBHOOK URL")
         return
 
-    # ⏱️ time
+    # time
     time_str = datetime.fromtimestamp(stock.ts).strftime("%d/%m %H:%M:%S")
 
-    # 📊 tính toán
+    # tính toán
     change = stock.priceClose - stock.priceReference
     pct = (change / stock.priceReference) * 100
 
-    # 🎨 màu
+    #màu
     if stock.priceClose > stock.priceReference:
         color = int("26ff3c", 16)  # xanh
     elif stock.priceClose < stock.priceReference:
@@ -22,7 +22,7 @@ def send(stock,ticker:str):
     else:
         color = int("f1c40f", 16)  # vàng
 
-    # 🚀 signal
+    # signal
     if pct > 1:
         signal = "🚀 BREAKOUT"
     elif pct < -1:
@@ -30,7 +30,7 @@ def send(stock,ticker:str):
     else:
         signal = "📊 NORMAL"
 
-    # 📦 payload
+    # payload
     text = {
         "content": f"{signal} | VIX {stock.priceClose:.2f} ({pct:+.2f}%)",
         "embeds": [
