@@ -1,0 +1,24 @@
+============================================================
+      MODEL EVALUATION & BACKTESTING REPORT
+============================================================
+
+Model input window : 10 days
+Model features     : 14
+
+--- Regression metrics (real price units) ---
+RMSE               : 3.4339
+MAE                : 1.9332
+
+--- Backtest results ---
+Total Trades       : 490
+  BUY signals      : 132
+  SELL signals     : 358
+Winning Trades     : 236
+Losing Trades      : 254
+Win Rate (%)       : 48.16
+Total Profit (%)   : -36.14   (compounded)
+Sum of returns (%) : -23.77   (non-compounded)
+
+Note: Win Rate here is also the model's directional accuracy
+(fraction of days the up/down direction was predicted right).
+============================================================
